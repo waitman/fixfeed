@@ -1,0 +1,1499 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>FreeBSD Security Advisories</title>
+<subtitle>Security Advisories published from the FreeBSD Project</subtitle>
+<link href="http://www.FreeBSD.org/security" />
+<link href="http://www.da3m0n8t3r.com/atom.xml" rel="self" />
+<id>http://www.da3m0n8t3r.com/atom.xml</id>
+<updated>2014-01-14T00:00:03-08:00</updated>
+<author>
+<name>FreeBSD Security Team</name>
+<email>secteam@FreeBSD.org</email>
+</author>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-14:04.bind.asc" />
+<updated>2014-01-14T00:00:03-08:00</updated>
+<title>FreeBSD-SA-14:04.bind</title>
+<summary>BIND remote denial of service vulnerability CVE-2014-0591</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA512<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-14:04.bind                                       Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          BIND remote denial of service vulnerability<br />
+<br />
+Category:       contrib<br />
+Module:         bind<br />
+Announced:      2014-01-14<br />
+Credits:        ISC<br />
+Affects:        FreeBSD 8.x and FreeBSD 9.x<br />
+Corrected:      2014-01-14 19:38:37 UTC (stable/9, 9.2-STABLE)<br />
+2014-01-14 19:42:28 UTC (releng/9.2, 9.2-RELEASE-p3)<br />
+2014-01-14 19:42:28 UTC (releng/9.1, 9.1-RELEASE-p10)<br />
+2014-01-14 19:38:37 UTC (stable/8, 8.4-STABLE)<br />
+2014-01-14 19:42:28 UTC (releng/8.4, 8.4-RELEASE-p7)<br />
+2014-01-14 19:42:28 UTC (releng/8.3, 8.3-RELEASE-p14)<br />
+CVE Name:       CVE-2014-0591<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+I.   Background<br />
+<br />
+BIND 9 is an implementation of the Domain Name System (DNS) protocols.<br />
+The named(8) daemon is an Internet Domain Name Server.<br />
+<br />
+II.  Problem Description<br />
+<br />
+Because of a defect in handling queries for NSEC3-signed zones, BIND can<br />
+crash with an &quot;INSIST&quot; failure in name.c when processing queries possessing<br />
+certain properties.  This issue only affects authoritative nameservers with<br />
+at least one NSEC3-signed zone.  Recursive-only servers are not at risk.<br />
+<br />
+III. Impact<br />
+<br />
+An attacker who can send a specially crafted query could cause named(8)<br />
+to crash, resulting in a denial of service.<br />
+<br />
+IV.  Workaround<br />
+<br />
+No workaround is available, but systems not running authoritative DNS service<br />
+with at least one NSEC3-signed zone using named(8) are not vulnerable.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+[FreeBSD 8.3, 8.4, 9.1, 9.2-RELEASE and 8.4-STABLE]<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:04/bind-release.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:04/bind-release.patch.asc<br />
+# gpg --verify bind-release.patch.asc<br />
+<br />
+[FreeBSD 9.2-STABLE]<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:04/bind-stable-9.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:04/bind-stable-9.patch.asc<br />
+# gpg --verify bind-stable-9.patch.asc<br />
+<br />
+b) Execute the following commands as root:<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+Recompile the operating system using buildworld and installworld as<br />
+described in &lt;URL:http://www.FreeBSD.org/handbook/makeworld.html&gt;.<br />
+<br />
+Restart the applicable daemons, or reboot the system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/8/                                                         r260646<br />
+releng/8.3/                                                       r260647<br />
+releng/8.4/                                                       r260647<br />
+stable/9/                                                         r260646<br />
+releng/9.1/                                                       r260647<br />
+releng/9.2/                                                       r260647<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;URL:https://kb.isc.org/article/AA-01078&gt;<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0591&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-14:04.bind.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+<br />
+iQIcBAEBCgAGBQJS1ZTYAAoJEO1n7NZdz2rnOvQP/2/68/s9Cu35PmqNtSZVVxVG<br />
+ZSQP5EGWx/lramNf9566iKxOrLRMq/h3XWcC4goVd+gZFrvITJSVOWSa7ntDQ7TO<br />
+XcinfRZ/iyiJbs/Rg2wLHc/t5oVSyeouyccqODYFbOwOlk35JjOTMUG1YcX+Zasg<br />
+ax8RV+7Zt1QSBkMlOz/myBLXUjlTZ3Xg2FXVsfFQW5/g2CjuHpRSFx1bVNX6ysoG<br />
+9DT58EQcYxIS8WfkHRbbXKh9I1nSfZ7/Hky/kTafRdRMrjAgbqFgHkYTYsBZeav5<br />
+fYWKGQRJulYfeZQ90yMTvlpF42DjCC3uJYamJnwDIu8OhS1WRBI8fQfr9DRzmRua<br />
+OK3BK9hUiScDZOJB6OqeVzUTfe7MAA4/UwrDtTYQ+PqAenv1PK8DZqwXyxA9ThHb<br />
+zKO3OwuKOVHJnKvpOcr+eNwo7jbnHlis0oBksj/mrq2P9m2ueF9gzCiq5Ri5Syag<br />
+Wssb1HUoMGwqU0roS8+pRpNC8YgsWpsttvUWSZ8u6Vj/FLeHpiV3mYXPVMaKRhVm<br />
+067BA2uj4Th1JKtGleox+Em0R7OFbCc/9aWC67wiqI6KRyit9pYiF3npph+7D5Eq<br />
+7zPsUdDd+qc+UTiLp3liCRp5w6484wWdhZO6wRtmUgxGjNkxFoNnX8CitzF8AaqO<br />
+UWWemqWuz3lAZuORQ9KX<br />
+=OQzQ<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:c062c6a4-b9fe-9b5c-d744-b897758b6c15</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-14:03.openssl.asc" />
+<updated>2014-01-14T00:00:02-08:00</updated>
+<title>FreeBSD-SA-14:03.openssl</title>
+<summary>OpenSSL multiple vulnerabilities CVE-2013-4353, CVE-2013-6449, CVE-2013-6450</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA512<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-14:03.openssl                                    Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          OpenSSL multiple vulnerabilities<br />
+<br />
+Category:       contrib<br />
+Module:         openssl<br />
+Announced:      2014-01-14<br />
+Affects:        FreeBSD 10.0 prior to 10.0-RC5<br />
+Corrected:      2014-01-07 20:04:41 UTC (stable/10, 10.0-PRERELEASE)<br />
+2014-01-07 20:06:20 UTC (releng/10.0, 10.0-RC5)<br />
+2014-01-07 20:06:20 UTC (releng/10.0, 10.0-RC4-p1)<br />
+2014-01-07 20:06:20 UTC (releng/10.0, 10.0-RC3-p1)<br />
+2014-01-07 20:06:20 UTC (releng/10.0, 10.0-RC2-p1)<br />
+2014-01-07 20:06:20 UTC (releng/10.0, 10.0-RC1-p1)<br />
+CVE Name:       CVE-2013-4353, CVE-2013-6449, CVE-2013-6450<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+I.   Background<br />
+<br />
+FreeBSD includes software from the OpenSSL Project.  The OpenSSL Project is<br />
+a collaborative effort to develop a robust, commercial-grade, full-featured<br />
+Open Source toolkit implementing the Secure Sockets Layer (SSL v2/v3)<br />
+and Transport Layer Security (TLS v1) protocols as well as a full-strength<br />
+general purpose cryptography library.<br />
+<br />
+II.  Problem Description<br />
+<br />
+A carefully crafted invalid TLS handshake could crash OpenSSL with a NULL<br />
+pointer exception. [CVE-2013-4353]<br />
+<br />
+A flaw in DTLS handling can cause an application using OpenSSL and DTLS to<br />
+crash. [CVE-2013-6450]<br />
+<br />
+A flaw in OpenSSL can cause an application using OpenSSL to crash when using<br />
+TLS version 1.2. [CVE-2013-6449]<br />
+<br />
+III. Impact<br />
+<br />
+An attacker can send a specifically crafted packet that could cause an OpenSSL<br />
+enabled application to crash, resulting in a Denial of Service.<br />
+<br />
+IV.  Workaround<br />
+<br />
+No workaround is available.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:03/openssl.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:03/openssl.patch.asc<br />
+# gpg --verify openssl.patch.asc<br />
+<br />
+b) Execute the following commands as root:<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+Recompile the operating system using buildworld and installworld as<br />
+described in &lt;URL:http://www.FreeBSD.org/handbook/makeworld.html&gt;.<br />
+<br />
+Restart all deamons using the library, or reboot the system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/10/                                                        r260404<br />
+releng/10.0/                                                      r260405<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-4353&gt;<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-6449&gt;<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-6450&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-14:03.openssl.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+<br />
+iQIcBAEBCgAGBQJS1ZTSAAoJEO1n7NZdz2rnHboP/Ryb4a9ENJ7J/S00E8V1YToh<br />
+hihrCKssMl6GVltS4oeyAmAW+mDx3DZy+RmAEhgjyAX4gpAxcY/g665j5BMtWAtV<br />
+LLJTI9D6ynO7+2y8CeD3W7tk28hNtBPWSV+cGi7USQMKijs6euPocgTU7TnAuF/e<br />
+/jcDTn8Sx/Sq0d3ecTWFBOcPHiq5sm/3pW5B1RVxY9DL+zhQ7T/Rb6pgfp6trssM<br />
+p8dklzoBReHqs1iPUC4RyhWXOoQoq5VX500b9SHh2X/7eBSq1ab76VF3x+9VOpjj<br />
+VRxL9sdkmp+iaVfMHxms3vCLSDlmpgYpq5SftL3jgkequPCpU6NFQGFQKw2crdL0<br />
+NY7dDPjMuvDzzdG7BZtt1mjpRMMMGmZ7fK0myP0+a3YbXEEZeAGT6k07er/xkGCr<br />
+uTWyPNM4g3Ulwkfnz60TbFrdMdiCJbRVC9xxOkGEALe882v0WWGPhx9IVbT3dGVw<br />
+KGFOXM+IqF55JuaHQ0u/B4wrjBfgBSgOt90TDyMJ5rPjiKG9wyUWnn7QziAVJQ0M<br />
+0H/82/2cxNX5+efWNi7xhss2fs1zcU3kiyr135mqamgOQyPG8jFOF7RhdpeGfzVk<br />
+ollQG+y1uwVTAWhmVb4MSaAuJw8ixVuap73Rbyug+MuKRLgR2jSxHFiBeiHLA1eG<br />
+1+DWJPX0+/zoNakLiw+r<br />
+=YOCY<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:b8961ada-10fa-e374-98cf-7778c3b91bfb</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-14:02.ntpd.asc" />
+<updated>2014-01-14T00:00:01-08:00</updated>
+<title>FreeBSD-SA-14:02.ntpd</title>
+<summary>ntpd distributed reflection Denial of Service vulnerability CVE-2013-5211</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA512<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-14:02.ntpd                                       Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          ntpd distributed reflection Denial of Service vulnerability<br />
+<br />
+Category:       contrib<br />
+Module:         ntpd<br />
+Announced:      2014-01-14<br />
+Affects:        All supported versions of FreeBSD.<br />
+Corrected:      2014-01-14 19:04:33 UTC (stable/10, 10.0-PRERELEASE)<br />
+2014-01-14 19:12:40 UTC (releng/10.0, 10.0-RELEASE)<br />
+2014-01-14 19:12:40 UTC (releng/10.0, 10.0-RC5-p1)<br />
+2014-01-14 19:12:40 UTC (releng/10.0, 10.0-RC4-p1)<br />
+2014-01-14 19:12:40 UTC (releng/10.0, 10.0-RC3-p1)<br />
+2014-01-14 19:12:40 UTC (releng/10.0, 10.0-RC2-p1)<br />
+2014-01-14 19:12:40 UTC (releng/10.0, 10.0-RC1-p1)<br />
+2014-01-14 19:20:41 UTC (stable/9, 9.2-STABLE)<br />
+2014-01-14 19:42:28 UTC (releng/9.2, 9.2-RELEASE-p3)<br />
+2014-01-14 19:42:28 UTC (releng/9.1, 9.1-RELEASE-p10)<br />
+2014-01-14 19:20:41 UTC (stable/8, 8.4-STABLE)<br />
+2014-01-14 19:42:28 UTC (releng/8.4, 8.4-RELEASE-p7)<br />
+2014-01-14 19:42:28 UTC (releng/8.3, 8.3-RELEASE-p14)<br />
+CVE Name:       CVE-2013-5211<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+I.   Background<br />
+<br />
+The ntpd(8) daemon is an implementation of the Network Time Protocol (NTP)<br />
+used to synchronize the time of a computer system to a reference time<br />
+source.<br />
+<br />
+II.  Problem Description<br />
+<br />
+The ntpd(8) daemon supports a query 'monlist' which provides a history of<br />
+recent NTP clients without any authentication.<br />
+<br />
+III. Impact<br />
+<br />
+An attacker can send 'monlist' queries and use that as an amplification of<br />
+a reflection attack.<br />
+<br />
+IV.  Workaround<br />
+<br />
+The administrator can implement one of the following possible workarounds<br />
+to mitigate the attack:<br />
+<br />
+1) Restrict access to ntpd(8).  This can be done by adding the following<br />
+lines to /etc/ntp.conf:<br />
+<br />
+restrict -4 default nomodify nopeer noquery notrap<br />
+restrict -6 default nomodify nopeer noquery notrap<br />
+restrict 127.0.0.1<br />
+restrict -6 ::1<br />
+restrict 127.127.1.0<br />
+<br />
+And restart the ntpd(8) daemon.  Time service is not affected and the<br />
+administrator can still perform queries from local host.<br />
+<br />
+2) Use IP based restrictions in ntpd(8) itself or in IP firewalls to<br />
+restrict which systems can access ntpd(8).<br />
+<br />
+3) Replace the base system ntpd(8) with net/ntp-devel (version 4.2.7p76 or<br />
+newer)<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:02/ntpd.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:02/ntpd.patch.asc<br />
+# gpg --verify ntpd.patch.asc<br />
+<br />
+b) Execute the following commands as root:<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+Recompile the operating system using buildworld and installworld as<br />
+described in &lt;URL:http://www.FreeBSD.org/handbook/makeworld.html&gt;.<br />
+<br />
+Restart the ntpd(8) daemon, or reboot the system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+Note that the patch would disable monitoring features of ntpd(8) daemon<br />
+by default.  If the feature is desirable, the administrator can choose<br />
+to enable it and firewall access to ntpd(8) service.<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/8/                                                         r260641<br />
+releng/8.3/                                                       r260647<br />
+releng/8.4/                                                       r260647<br />
+stable/9/                                                         r260641<br />
+releng/9.1/                                                       r260647<br />
+releng/9.2/                                                       r260647<br />
+stable/10/                                                        r260639<br />
+releng/10.0/                                                      r260641<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;URL:http://www.symantec.com/connect/blogs/hackers-spend-christmas-break-launching-large-scale-ntp-reflection-attacks&gt;<br />
+<br />
+&lt;URL:https://cert.litnet.lt/en/docs/ntp-distributed-reflection-dos-attacks&gt;<br />
+<br />
+&lt;URL:http://bugs.ntp.org/show_bug.cgi?id=1532&gt;<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-5211&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-14:02.ntpd.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+<br />
+iQIcBAEBCgAGBQJS1ZTLAAoJEO1n7NZdz2rnn7YP/2DcBtR4LAlMLqa9t8WsFVrD<br />
+zrfmitYv5xZ6TUGURfQ3mhF4Xv+vSaYt5AWphBjo/Um+dZLTrX3NXJyjLWenCFZ1<br />
+vUgoeT4czdh/sWXBO+BdahswttJ6uPO0ZPeW/TpczHMrfG++r6FZtcavYj1gWUPX<br />
+rQUEh3IRT5MzzcdiIdQFOpi6OeOP7hem5pNOqYwjyy4L4wrgIUetaMpvqXgi2Wa+<br />
+R2vqQNpFAPxKkMkbohLEPRmEK9dXGXejQ7EHFK5jzxInyg32WGFPkJ46bLw3bEsB<br />
+sIoh+sxQ3J9mxyaykhX6T7U7PUkzBaNSs62bQE5H8695E30obnZqtfon6qBP5UCT<br />
+/kF1+42RIQIPJUFS22NXaUJVOkpd2zyVhwLxgCHg96PHwd1VAC0bnuB4CQt8lN2C<br />
+vcOsFcq6CUpMuteURBeiETb0OGWTTT3gyX4T7N4kRKptvmEVUKxZPnmfJCwNHM2I<br />
+TzM2HbHaBv9CMIy5X4iDQxLH3w3tSh+IHU6m9cN5rd6JDTa5DQEuRkhaeVbCGHRt<br />
+EcSHvUCr+llacITA2rkm1/KPcP97nGgbbM2QbbUVZ/vkdEcImPfrBzrBbaoBzf5p<br />
+FTplhJ/4bfF0/Kgt5GTNgQXqtIuEQOs+ljNu2HW+cAfX2Hizlo7jjfMxS0y7/fY2<br />
+hBdg8zuXs/rBI2LKUcP6<br />
+=7q6W<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:8b90ef66-d3a0-6450-0bb2-d6c417db6a06</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-14:01.bsnmpd.asc" />
+<updated>2014-01-14T00:00:00-08:00</updated>
+<title>FreeBSD-SA-14:01.bsnmpd</title>
+<summary>bsnmpd remote denial of service vulnerability CVE-2014-1452</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA512<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-14:01.bsnmpd                                     Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          bsnmpd remote denial of service vulnerability<br />
+<br />
+Category:       contrib<br />
+Module:         bsnmp<br />
+Announced:      2014-01-14<br />
+Credits:        Dirk Meyer<br />
+Affects:        All supported versions of FreeBSD.<br />
+Corrected:      2014-01-14 19:02:14 UTC (stable/10, 10.0-PRERELEASE)<br />
+2014-01-14 19:10:38 UTC (releng/10.0, 10.0-RELEASE)<br />
+2014-01-14 19:10:38 UTC (releng/10.0, 10.0-RC5-p1)<br />
+2014-01-14 19:10:38 UTC (releng/10.0, 10.0-RC4-p1)<br />
+2014-01-14 19:10:38 UTC (releng/10.0, 10.0-RC3-p1)<br />
+2014-01-14 19:10:38 UTC (releng/10.0, 10.0-RC2-p1)<br />
+2014-01-14 19:10:38 UTC (releng/10.0, 10.0-RC1-p1)<br />
+2014-01-14 19:17:20 UTC (stable/9, 9.2-STABLE)<br />
+2014-01-14 19:42:28 UTC (releng/9.2, 9.2-RELEASE-p3)<br />
+2014-01-14 19:42:28 UTC (releng/9.1, 9.1-RELEASE-p10)<br />
+2014-01-14 19:17:20 UTC (stable/8, 8.4-STABLE)<br />
+2014-01-14 19:42:28 UTC (releng/8.4, 8.4-RELEASE-p7)<br />
+2014-01-14 19:42:28 UTC (releng/8.3, 8.3-RELEASE-p14)<br />
+CVE Name:       CVE-2014-1452<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+I.   Background<br />
+<br />
+The bsnmpd is a simple and extensible SNMP daemon serves the Internet SNMP<br />
+(Simple Network Management Protocol).<br />
+<br />
+II.  Problem Description<br />
+<br />
+The bsnmpd(8) daemon is prone to a stack-based buffer-overflow when it<br />
+has received a specifically crafted GETBULK PDU request.<br />
+<br />
+III. Impact<br />
+<br />
+This issue could be exploited to execute arbitrary code in the context of<br />
+the service daemon, or crash the service daemon, causing a denial-of-service.<br />
+<br />
+IV.  Workaround<br />
+<br />
+No workaround is available, but systems not running bsnmpd(8) are not<br />
+vulnerable.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:01/bsnmpd.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-14:01/bsnmpd.patch.asc<br />
+# gpg --verify bsnmpd.patch.asc<br />
+<br />
+b) Execute the following commands as root:<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+Recompile the operating system using buildworld and installworld as<br />
+described in &lt;URL:http://www.FreeBSD.org/handbook/makeworld.html&gt;.<br />
+<br />
+Restart the bsnmpd(8) daemons, or reboot the system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/8/                                                         r260642<br />
+releng/8.3/                                                       r260647<br />
+releng/8.4/                                                       r260647<br />
+stable/9/                                                         r260642<br />
+releng/9.1/                                                       r260647<br />
+releng/9.2/                                                       r260647<br />
+stable/10/                                                        r260638<br />
+releng/10.0/                                                      r260640<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1452&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-14:01.bsnmpd.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+<br />
+iQIcBAEBCgAGBQJS1bgpAAoJEO1n7NZdz2rnuUMP/jV7Yw6D+mSbtXRRtEc+8NLM<br />
+vMv3qmJp0mDuulfaxtCJrbdSFbLEM1dWtXigC3CV1/ih7bFgKsDODJB5zmS0CYJX<br />
+2B71+huWrnhndK7c9OPQYNFkjG/Y0LWd/TfijDbMMmXdqVas0g9JuWsySNZ84WNY<br />
+Cd/VMbK6qeWy+fmWvRfMBOIbk2JoQCFsXNiYJ7pZReLXE96P3f/4N0Ncbh6YMC0L<br />
+Uc7m73mKx3k2GfsWGIoPj7XH0yIuu08GQi8fI8dBq7FAj/6LpQadVKqOw2wKgyem<br />
+s8Fmw3QwkdpjSsTsVr5RnMGEA9uzZK6X75OqSS9EcbYZQM1zmfaALHin3kjnGjBy<br />
+BdjMQ4CnaC1lHGWxY+fUYDRPGFz/cvJXDOxuiEvfiVg62tVBXI8BZmyb4Nsgt+gN<br />
+1A/3tk4TAxli+2Ra1kTW4KiUrx9jERGPi03DzNElOBkagYOPp4c5rck7VAiAau+f<br />
+odwCuXgm6k7GdtWpX6LZobG5QxWXrECzNmCQd9qcN9vNvcJ4U01FG9lmcctW67Fz<br />
+ltjQWBt/H1lnUmy6orwFQfinDam6UXp3jJgb4REnLe72kKRguSgNlnQ2bpApDHDz<br />
+YOlFLJL9m5gxMehYtub+QP29Vr4j9TChDSBTNy1zqouZfyBhIvrPIkDUS3FrqzJY<br />
+VmeCQ6pB+A4I92Elmg7b<br />
+=sxqz<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:ffd2a7d9-1839-66f9-0634-5ce072095eb4</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-13:14.openssh.asc" />
+<updated>2013-11-19T00:00:00-08:00</updated>
+<title>FreeBSD-SA-13:14.openssh</title>
+<summary>OpenSSH AES-GCM memory corruption vulnerability CVE-2013-4548</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA512<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-13:14.openssh                                    Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          OpenSSH AES-GCM memory corruption vulnerability<br />
+<br />
+Category:       contrib<br />
+Module:         openssh<br />
+Announced:      2013-11-19<br />
+Revised:        2013-11-28<br />
+Affects:        FreeBSD 10.0-BETA<br />
+Corrected:      2013-11-19 09:35:20 UTC (stable/10, 10.0-STABLE)<br />
+2013-11-19 09:35:20 UTC (stable/10, 10.0-BETA3-p1)<br />
+2013-11-19 09:35:20 UTC (stable/10, 10.0-BETA2-p1)<br />
+2013-11-19 09:35:20 UTC (stable/10, 10.0-BETA1-p2)<br />
+CVE Name:       CVE-2013-4548<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+0.   Revision History<br />
+<br />
+v1.0  2013-11-19 Initial release.<br />
+v1.1  2013-11-28 Corrected path to sshd_config.<br />
+<br />
+I.   Background<br />
+<br />
+OpenSSH is an implementation of the SSH protocol suite, providing an<br />
+encrypted and authenticated transport for a variety of services,<br />
+including remote shell access.<br />
+<br />
+AES-GCM (Galois/Counter Mode) is a mode of operation for AES block<br />
+cipher that combines the counter mode of encryption with the Galois<br />
+mode of authentication which can offer throughput rates for state of<br />
+the art, high speed communication channels.<br />
+<br />
+OpenSSH supports the AES-GCM algorithm as specified in RFC 5647.<br />
+<br />
+II.  Problem Description<br />
+<br />
+A memory corruption vulnerability exists in the post-authentication sshd<br />
+process when an AES-GCM cipher (aes128-gcm@openssh.com or<br />
+aes256-gcm@openssh.com) is selected during key exchange.<br />
+<br />
+III. Impact<br />
+<br />
+If exploited, this vulnerability might permit code execution with the<br />
+privileges of the authenticated user, thereby allowing a malicious<br />
+user with valid credentials to bypass shell or command restrictions<br />
+placed on their account.<br />
+<br />
+IV.  Workaround<br />
+<br />
+Disable AES-GCM in the server configuration. This can be accomplished by<br />
+adding the following /etc/ssh/sshd_config option, which will disable<br />
+AES-GCM while leaving other ciphers active:<br />
+<br />
+Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,aes192-cbc,aes256-cbc<br />
+<br />
+Systems not running the OpenSSH server daemon (sshd) are not affected.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:14/openssh.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:14/openssh.patch.asc<br />
+# gpg --verify openssh.patch.asc<br />
+<br />
+b) Execute the following commands as root:<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+Recompile the operating system using buildworld and installworld as<br />
+described in &lt;URL:http://www.FreeBSD.org/handbook/makeworld.html&gt;.<br />
+<br />
+Restart the sshd daemon, or reboot the system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/10/                                                        r258335<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-4548&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-13:14.openssh.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+<br />
+iQIcBAEBCgAGBQJSl+hmAAoJEO1n7NZdz2rnHMYP/3yEQldDKONpQ1zS5YfDyVwO<br />
+wRBTgxMST7ozg/y7/xBA9FIpdRB8fJOgijKKVQv02MCN5xM5mXexxZAu1X3gcWls<br />
+v8Tf1YogR0IzLKzFDYYqZ/gWg/5vK1ALzPbHRSmDYivUSOyJftvDNFzPZnFp4DsI<br />
+U30OGxBfLSOvvX5XNGSixmILzv5DLxe7ThGa36oIZCKUAXSrNm79NfGiI0EvXK2Y<br />
+R3nTjdd5r5F5/K5S59BMmAmKCGIqsTJ/jeICKe49VUK+YyD+Wmr0gohhU6bmENWM<br />
+aXAD9em+uKGZnlqBUr5YC4vv8NHWuhOTWfl1CTDH4QhFOP+hiJt2w4EvGYORL1R/<br />
+2VDmFtiiPeebi7ECSTOSudx/xGvycpnUspw4T/b+H+kGar1ZvHpwqRYDC/Wla5Vq<br />
+Uzi7uIWTdJieLQXRERTln8mtehYmfHurlu1Mltb0v35vkSyUV5V6RjtxRAi0sWbj<br />
+w1A0lpDga1lom1FI5JTsiGtwV8A3MbmFKLuK7EUQf8I8lS80SptJNMMTkzYeW/Zy<br />
+jVqSj63Ns3WaDeHMURYfxf2ppb3meBX+Tw0glTBFJlE46c/sZ01zmcM0q1jQk5Vn<br />
+nHZgnGTKsCqR1VlnARdDicfa3VVhcPxeUkGEALZv1m31jA0AYG7BeAX9pvoQoOGK<br />
+1Oeu9j2MeszutBto6gqh<br />
+=6vNc<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:7f16ec03-942f-5d54-23e4-02d54e1be82d</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-13:13.nullfs.asc" />
+<updated>2013-09-10T01:00:02-07:00</updated>
+<title>FreeBSD-SA-13:13.nullfs</title>
+<summary>Cross-mount links between nullfs(5) mounts CVE-2013-5710</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA1<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-13:13.nullfs                                     Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          Cross-mount links between nullfs(5) mounts<br />
+<br />
+Category:       core<br />
+Module:         nullfs<br />
+Announced:      2013-09-10<br />
+Credits:        Konstantin Belousov<br />
+Affects:        All supported versions of FreeBSD.<br />
+Corrected:      2013-09-10 10:07:21 UTC (stable/9, 9.2-STABLE)<br />
+2013-09-10 10:08:20 UTC (releng/9.2, 9.2-RC1-p2)<br />
+2013-09-10 10:08:20 UTC (releng/9.2, 9.2-RC2-p2)<br />
+2013-09-10 10:08:20 UTC (releng/9.2, 9.2-RC3-p1)<br />
+2013-09-10 10:15:33 UTC (releng/9.1, 9.1-RELEASE-p7)<br />
+2013-09-10 10:12:09 UTC (stable/8, 8.4-STABLE)<br />
+2013-09-10 10:14:19 UTC (releng/8.4, 8.4-RELEASE-p4)<br />
+2013-09-10 10:13:14 UTC (releng/8.3, 8.3-RELEASE-p11)<br />
+CVE Name:       CVE-2013-5710<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+I.   Background<br />
+<br />
+The nullfs(5) filesystem allows all or a part of an already mounted<br />
+filesystem to be made available in a different part of the global<br />
+filesystem namespace.  It is commonly used to make a set of files<br />
+available to multiple chroot(2) or jail(2) environments without<br />
+replicating the files in each environment.  A common idiom, described<br />
+in the FreeBSD Handbook, is to mount one subtree of a filesystem<br />
+read-only within a jail's filesystem namespace, and mount a different<br />
+subtree of the same filesystem read-write.<br />
+<br />
+II.  Problem Description<br />
+<br />
+The nullfs(5) implementation of the VOP_LINK(9) VFS operation does not<br />
+check whether the source and target of the link are both in the same<br />
+nullfs instance.  It is therefore possible to create a hardlink from a<br />
+location in one nullfs instance to a file in another, as long as the<br />
+underlying (source) filesystem is the same.<br />
+<br />
+III. Impact<br />
+<br />
+If multiple nullfs views into the same filesystem are mounted in<br />
+different locations, a user with read access to one of these views and<br />
+write access to another will be able to create a hard link from the<br />
+latter to a file in the former, even though they are, from the user's<br />
+perspective, different filesystems.  The user may thereby gain write<br />
+access to files which are nominally on a read-only filesystem.<br />
+<br />
+IV.  Workaround<br />
+<br />
+No workaround is available, but systems which do not use the nullfs(5)<br />
+filesystem, or do not null-mount different subtrees of the same source<br />
+filesystem with different permissions, are not vulnerable.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:13/nullfs.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:13/nullfs.patch.asc<br />
+# gpg --verify nullfs.patch.asc<br />
+<br />
+b) Apply the patch.<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+c) Recompile your kernel as described in<br />
+&lt;URL:http://www.FreeBSD.org/handbook/kernelconfig.html&gt; and reboot the<br />
+system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/8/                                                         r255445<br />
+releng/8.3/                                                       r255446<br />
+releng/8.4/                                                       r255447<br />
+stable/9/                                                         r255443<br />
+releng/9.1/                                                       r255448<br />
+releng/9.2/                                                       r255444<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;URL:http://www.freebsd.org/doc/en/books/handbook/jails-application.html&gt;<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-5710&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-13:13.nullfs.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+Version: GnuPG v1.4.14 (FreeBSD)<br />
+<br />
+iEYEARECAAYFAlIu+7EACgkQFdaIBMps37K+7gCfVrmhwyE+k5QU3Z4wsdJFoeyL<br />
+BqEAn23QlLQ7o4HlDSiJuPoX622IsFbk<br />
+=/7Zz<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:24fdda1c-6869-6b08-5a6a-98480cd15e1b</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-13:12.ifioctl.asc" />
+<updated>2013-09-10T01:00:01-07:00</updated>
+<title>FreeBSD-SA-13:12.ifioctl</title>
+<summary>Insufficient credential checks in network ioctl(2) CVE-2013-5691</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA1<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-13:12.ifioctl                                    Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          Insufficient credential checks in network ioctl(2)<br />
+<br />
+Category:       core<br />
+Module:         sys_netinet6 sys_netatm<br />
+Announced:      2013-09-10<br />
+Credits:        Loganaden Velvindron<br />
+Gleb Smirnoff<br />
+Affects:        All supported versions of FreeBSD.<br />
+Corrected:      2013-09-10 10:07:21 UTC (stable/9, 9.2-STABLE)<br />
+2013-09-10 10:08:20 UTC (releng/9.2, 9.2-RC1-p2)<br />
+2013-09-10 10:08:20 UTC (releng/9.2, 9.2-RC2-p2)<br />
+2013-09-10 10:08:20 UTC (releng/9.2, 9.2-RC3-p1)<br />
+2013-09-10 10:15:33 UTC (releng/9.1, 9.1-RELEASE-p7)<br />
+2013-09-10 10:12:09 UTC (stable/8, 8.4-STABLE)<br />
+2013-09-10 10:14:19 UTC (releng/8.4, 8.4-RELEASE-p4)<br />
+2013-09-10 10:13:14 UTC (releng/8.3, 8.3-RELEASE-p11)<br />
+CVE Name:       CVE-2013-5691<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+I.   Background<br />
+<br />
+The ioctl(2) system call allows an application to perform device- or<br />
+protocol-specific operations through a file or socket descriptor<br />
+associated with a specific device or protocol.<br />
+<br />
+The SIOCSIFADDR, SIOCSIFBRDADDR, SIOCSIFDSTADDR and SIOCSIFNETMASK<br />
+ioctl requests are used to associate a network address, broadcast<br />
+address, destination address (for point-to-point interfaces) or<br />
+netmask with an interface.  They operate on the assumption that each<br />
+interface only has one address per protocol, and are therefore of<br />
+limited use for IPv4, where interfaces may have more than one address.<br />
+They were never implemented for IPv6, where interfaces nearly always<br />
+have at least two, and in many cases three, addresses; nor were they<br />
+ever implemented for ATM.<br />
+<br />
+II.  Problem Description<br />
+<br />
+As is commonly the case, the IPv6 and ATM network layer ioctl request<br />
+handlers are written in such a way that an unrecognized request is<br />
+passed on unmodified to the link layer, which will either handle it or<br />
+return an error code.<br />
+<br />
+Network interface drivers, however, assume that the SIOCSIFADDR,<br />
+SIOCSIFBRDADDR, SIOCSIFDSTADDR and SIOCSIFNETMASK requests have been<br />
+handled at the network layer, and therefore do not perform input<br />
+validation or verify the caller's credentials.  Typical link-layer<br />
+actions for these requests may include marking the interface as &quot;up&quot;<br />
+and resetting the underlying hardware.<br />
+<br />
+III. Impact<br />
+<br />
+An unprivileged user with the ability to run arbitrary code can cause<br />
+any network interface in the system to perform the link layer actions<br />
+associated with a SIOCSIFADDR, SIOCSIFBRDADDR, SIOCSIFDSTADDR or<br />
+SIOCSIFNETMASK ioctl request; or trigger a kernel panic by passing a<br />
+specially crafted address structure which causes a network interface<br />
+driver to dereference an invalid pointer.<br />
+<br />
+Although this has not been confirmed, the possibility that an attacker<br />
+may be able to execute arbitrary code in kernel context can not be<br />
+ruled out.<br />
+<br />
+IV.  Workaround<br />
+<br />
+No workaround is available.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:12/ifioctl.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:12/ifioctl.patch.asc<br />
+# gpg --verify ifioctl.patch.asc<br />
+<br />
+b) Apply the patch.<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+c) Recompile your kernel as described in<br />
+&lt;URL:http://www.FreeBSD.org/handbook/kernelconfig.html&gt; and reboot the<br />
+system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/8/                                                         r255445<br />
+releng/8.3/                                                       r255446<br />
+releng/8.4/                                                       r255447<br />
+stable/9/                                                         r255443<br />
+releng/9.1/                                                       r255448<br />
+releng/9.2/                                                       r255444<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-5691&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-13:12.ifioctl.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+Version: GnuPG v1.4.14 (FreeBSD)<br />
+<br />
+iEYEARECAAYFAlIu8rUACgkQFdaIBMps37ImRQCdGUcSBvK6+kAN69aGChHT6fVb<br />
+YI4AoJNveN9PSowTG0NnUkPJR9oJimZT<br />
+=xb3g<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:97799e1e-ab2c-24e6-169b-eea84ffdc5d5</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-13:11.sendfile.asc" />
+<updated>2013-09-10T01:00:00-07:00</updated>
+<title>FreeBSD-SA-13:11.sendfile</title>
+<summary>Kernel memory disclosure in sendfile(2) CVE-2013-5666</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA1<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-13:11.sendfile                                   Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          Kernel memory disclosure in sendfile(2)<br />
+<br />
+Category:       core<br />
+Module:         sendfile<br />
+Announced:      2013-09-10<br />
+Credits:        Ed Maste<br />
+Affects:        FreeBSD 9.2-RC1 and 9.2-RC2<br />
+Corrected:      2013-09-10 10:07:21 UTC (stable/9, 9.2-STABLE)<br />
+2013-09-10 10:08:20 UTC (releng/9.2, 9.2-RC1-p2)<br />
+2013-09-10 10:08:20 UTC (releng/9.2, 9.2-RC2-p2)<br />
+CVE Name:       CVE-2013-5666<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+I.   Background<br />
+<br />
+The sendfile(2) system call allows a server application (such as an<br />
+HTTP or FTP server) to transmit the contents of a file over a network<br />
+connection without first copying it to application memory.  High<br />
+performance servers such as Apache and ftpd use sendfile.<br />
+<br />
+II.  Problem Description<br />
+<br />
+On affected systems, if the length passed to sendfile(2) is non-zero<br />
+and greater than the length of the file being transmitted, sendfile(2)<br />
+will pad the transmission up to the requested length or the next<br />
+pagesize boundary, whichever is smaller.<br />
+<br />
+The content of the additional bytes transmitted in this manner depends<br />
+on the underlying filesystem, but may potentially include information<br />
+useful to an attacker.<br />
+<br />
+III. Impact<br />
+<br />
+An unprivileged user with the ability to run arbitrary code may be<br />
+able to obtain arbitrary kernel memory contents.<br />
+<br />
+IV.  Workaround<br />
+<br />
+No workaround is available.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+[FreeBSD 9.2-STABLE]<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:11/sendfile-9.2-stable.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:11/sendfile-9.2-stable.patch.asc<br />
+# gpg --verify sendfile-9.2-stable.patch.asc<br />
+<br />
+[FreeBSD 9.2-RC1 and 9.2-RC2]<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:11/sendfile-9.2-rc.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:11/sendfile-9.2-rc.patch.asc<br />
+# gpg --verify sendfile-9.2-rc.patch.asc<br />
+<br />
+b) Apply the patch.<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+c) Recompile your kernel as described in<br />
+&lt;URL:http://www.FreeBSD.org/handbook/kernelconfig.html&gt; and reboot the<br />
+system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/9/                                                         r255443<br />
+releng/9.2/                                                       r255444<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-5666&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-13:11.sendfile.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+Version: GnuPG v1.4.14 (FreeBSD)<br />
+<br />
+iEYEARECAAYFAlIu8rIACgkQFdaIBMps37K01ACgmwaW3PZhjDqWSlTHusjIPNVy<br />
+A/YAn3DFUAvlX8sH89taM+sedjbD5In8<br />
+=gZwu<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:735e0286-53e0-c5f6-46de-6e1900aa5bfb</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-13:10.sctp.asc" />
+<updated>2013-08-22T01:00:01-07:00</updated>
+<title>FreeBSD-SA-13:10.sctp</title>
+<summary>Kernel memory disclosure in sctp(4) CVE-2013-5209</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA1<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-13:10.sctp                                       Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          Kernel memory disclosure in sctp(4)<br />
+<br />
+Category:       core<br />
+Module:         sctp<br />
+Announced:      2013-08-22<br />
+Credits:        Julian Seward, Michael Tuexen<br />
+Affects:        All supported versions of FreeBSD.<br />
+Corrected:      2013-08-15 04:25:16 UTC (stable/9, 9.2-PRERELEASE)<br />
+2013-08-15 05:14:20 UTC (releng/9.2, 9.2-RC1-p1)<br />
+2013-08-15 05:14:20 UTC (releng/9.2, 9.2-RC2)<br />
+2013-08-22 00:51:48 UTC (releng/9.1, 9.1-RELEASE-p6)<br />
+2013-08-15 04:35:25 UTC (stable/8, 8.4-STABLE)<br />
+2013-08-22 00:51:56 UTC (releng/8.4, 8.4-RELEASE-p3)<br />
+2013-08-22 00:51:56 UTC (releng/8.3, 8.3-RELEASE-p10)<br />
+CVE Name:       CVE-2013-5209<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+0.   Revision History<br />
+<br />
+v1.0  2013-08-22 Initial release.<br />
+v1.1  2013-09-07 Binary patch released for 9.2-RC1.<br />
+<br />
+I.   Background<br />
+<br />
+The SCTP protocol provides reliable, flow-controlled, two-way transmission<br />
+of data.  It is a message oriented protocol and can support the SOCK_STREAM<br />
+and SOCK_SEQPACKET abstractions.<br />
+<br />
+The SCTP protocol checks the integrity of messages by validating the state<br />
+cookie information that is returned from the peer.<br />
+<br />
+II.  Problem Description<br />
+<br />
+When initializing the SCTP state cookie being sent in INIT-ACK chunks,<br />
+a buffer allocated from the kernel stack is not completely initialized.<br />
+<br />
+III. Impact<br />
+<br />
+Fragments of kernel memory may be included in SCTP packets and<br />
+transmitted over the network.  For each SCTP session, there are two<br />
+separate instances in which a 4-byte fragment may be transmitted.<br />
+<br />
+This memory might contain sensitive information, such as portions of the<br />
+file cache or terminal buffers.  This information might be directly<br />
+useful, or it might be leveraged to obtain elevated privileges in<br />
+some way.  For example, a terminal buffer might include a user-entered<br />
+password.<br />
+<br />
+IV.  Workaround<br />
+<br />
+No workaround is available, but systems not using the SCTP protocol<br />
+are not vulnerable.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:10/sctp.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:10/sctp.patch.asc<br />
+# gpg --verify sctp.patch.asc<br />
+<br />
+b) Apply the patch.<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+c) Recompile your kernel as described in<br />
+&lt;URL:http://www.FreeBSD.org/handbook/kernelconfig.html&gt; and reboot the<br />
+system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/8/                                                         r254354<br />
+releng/8.3/                                                       r254632<br />
+releng/8.4/                                                       r254632<br />
+stable/9/                                                         r254352<br />
+releng/9.1/                                                       r254631<br />
+releng/9.2/                                                       r254355<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;other info on vulnerability&gt;<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-5209&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-13:10.sctp.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+Version: GnuPG v1.4.14 (FreeBSD)<br />
+<br />
+iEYEARECAAYFAlIu+g8ACgkQFdaIBMps37JBjgCgkRdb24STra3EjItZymFqU0S8<br />
+6rQAn0EQeP1D8BUCIbzR5uNYrrNv9Eo6<br />
+=2Ot5<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:ca73d173-14c9-969b-7503-cf8b25efeac8</id>
+</entry>
+<entry>
+<link href="http://security.FreeBSD.org/advisories/FreeBSD-SA-13:09.ip_multicast.asc" />
+<updated>2013-08-22T01:00:00-07:00</updated>
+<title>FreeBSD-SA-13:09.ip_multicast</title>
+<summary>integer overflow in IP_MSFILTER CVE-2013-3077</summary>
+<content type="text/html"><![CDATA[<html>-----BEGIN PGP SIGNED MESSAGE-----<br />
+Hash: SHA1<br />
+<br />
+=============================================================================<br />
+FreeBSD-SA-13:09.ip_multicast                               Security Advisory<br />
+The FreeBSD Project<br />
+<br />
+Topic:          integer overflow in IP_MSFILTER<br />
+<br />
+Category:       core<br />
+Module:         kernel<br />
+Announced:      2013-08-22<br />
+Credits:        Clement Lecigne (Google Security Team)<br />
+Affects:        All supported versions of FreeBSD.<br />
+Corrected:      2013-08-22 00:51:37 UTC (stable/9, 9.2-PRERELEASE)<br />
+2013-08-22 00:51:43 UTC (releng/9.1, 9.2-RC1-p1)<br />
+2013-08-22 00:51:43 UTC (releng/9.2, 9.2-RC2-p1)<br />
+2013-08-22 00:51:48 UTC (releng/9.1, 9.1-RELEASE-p6)<br />
+2013-08-22 00:51:37 UTC (stable/8, 8.4-STABLE)<br />
+2013-08-22 00:51:56 UTC (releng/8.4, 8.4-RELEASE-p3)<br />
+2013-08-22 00:51:56 UTC (releng/8.3, 8.3-RELEASE-p10)<br />
+CVE Name:       CVE-2013-3077<br />
+<br />
+For general information regarding FreeBSD Security Advisories,<br />
+including descriptions of the fields above, security branches, and the<br />
+following sections, please visit &lt;URL:http://security.FreeBSD.org/&gt;.<br />
+<br />
+0.   Revision History<br />
+<br />
+v1.0  2013-08-22 Initial release.<br />
+v1.1  2013-09-07 Binary patch released for 9.2-RC1.<br />
+<br />
+I.   Background<br />
+<br />
+IP multicast is a method of sending Internet Protocol (IP) datagrams to a<br />
+group of interested receivers in a single transmission.<br />
+<br />
+II.  Problem Description<br />
+<br />
+An integer overflow in computing the size of a temporary buffer can<br />
+result in a buffer which is too small for the requested operation.<br />
+<br />
+III. Impact<br />
+<br />
+An unprivileged process can read or write pages of memory which belong to<br />
+the kernel.  These may lead to exposure of sensitive information or allow<br />
+privilege escalation.<br />
+<br />
+IV.  Workaround<br />
+<br />
+No workaround is available.<br />
+<br />
+V.   Solution<br />
+<br />
+Perform one of the following:<br />
+<br />
+1) Upgrade your vulnerable system to a supported FreeBSD stable or<br />
+release / security branch (releng) dated after the correction date.<br />
+<br />
+2) To update your vulnerable system via a source code patch:<br />
+<br />
+The following patches have been verified to apply to the applicable<br />
+FreeBSD release branches.<br />
+<br />
+a) Download the relevant patch from the location below, and verify the<br />
+detached PGP signature using your PGP utility.<br />
+<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:09/ip_multicast.patch<br />
+# fetch http://security.FreeBSD.org/patches/SA-13:09/ip_multicast.patch.asc<br />
+# gpg --verify ip_multicast.patch.asc<br />
+<br />
+b) Apply the patch.<br />
+<br />
+# cd /usr/src<br />
+# patch &lt; /path/to/patch<br />
+<br />
+c) Recompile your kernel as described in<br />
+&lt;URL:http://www.FreeBSD.org/handbook/kernelconfig.html&gt; and reboot the<br />
+system.<br />
+<br />
+3) To update your vulnerable system via a binary patch:<br />
+<br />
+Systems running a RELEASE version of FreeBSD on the i386 or amd64<br />
+platforms can be updated via the freebsd-update(8) utility:<br />
+<br />
+# freebsd-update fetch<br />
+# freebsd-update install<br />
+<br />
+VI.  Correction details<br />
+<br />
+The following list contains the correction revision numbers for each<br />
+affected branch.<br />
+<br />
+Branch/path                                                      Revision<br />
+- -------------------------------------------------------------------------<br />
+stable/8/                                                         r254629<br />
+releng/8.3/                                                       r254632<br />
+releng/8.4/                                                       r254632<br />
+stable/9/                                                         r254629<br />
+releng/9.1/                                                       r254631<br />
+releng/9.2/                                                       r254630<br />
+- -------------------------------------------------------------------------<br />
+<br />
+To see which files were modified by a particular revision, run the<br />
+following command, replacing NNNNNN with the revision number, on a<br />
+machine with Subversion installed:<br />
+<br />
+# svn diff -cNNNNNN --summarize svn://svn.freebsd.org/base<br />
+<br />
+Or visit the following URL, replacing NNNNNN with the revision number:<br />
+<br />
+&lt;URL:http://svnweb.freebsd.org/base?view=revision&amp;revision=NNNNNN&gt;<br />
+<br />
+VII. References<br />
+<br />
+&lt;other info on vulnerability&gt;<br />
+<br />
+&lt;URL:http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-3077&gt;<br />
+<br />
+The latest revision of this advisory is available at<br />
+&lt;URL:http://security.FreeBSD.org/advisories/FreeBSD-SA-13:09.ip_multicast.asc&gt;<br />
+-----BEGIN PGP SIGNATURE-----<br />
+Version: GnuPG v1.4.14 (FreeBSD)<br />
+<br />
+iEYEARECAAYFAlIu+gwACgkQFdaIBMps37L2+QCePwycOYKrh9VJi7Pc2AS+DfsQ<br />
+UcUAnimJz9bKgDUOEIwefkPbF85yH3aw<br />
+=tnWM<br />
+-----END PGP SIGNATURE-----<br />
+<br /></html>]]></content>
+<id>urn:uuid:9ea9629a-7001-a914-b54b-01191d57f024</id>
+</entry>
+</feed>
